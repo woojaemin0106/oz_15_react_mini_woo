@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import React from "react";
 const Image_URL = "https://image.tmdb.org/t/p/w500";
 
 function MovieCard({ title, posterPath, rating }) {

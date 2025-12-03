@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import movieListData from "./data/movieListData.json";
 import MovieCard from "./components/MovieCard";
