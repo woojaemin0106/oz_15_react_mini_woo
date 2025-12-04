@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
-import Home from "./Home.jsx";
+import Home from "./page/Home.jsx";
 import MovieDetail from "./components/MovieDetail.jsx"; // 위치에 맞게
 
 function App() {
