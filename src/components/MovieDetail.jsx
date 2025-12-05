@@ -1,16 +1,50 @@
-import { useState } from "react";
-import movieDetailData from "../data/movieDetailData.json";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getMovieDetails } from "../constants/TMDb";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-export default function MovieDetail() {
-  const [movie] = useState(movieDetailData);
+function MovieDetail() {
+  const { id } = useParams(); // /details/:id 에서 id 가져오기
+  const [movie, setMovie] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  {
-    /* 안전장치 */
+  useEffect(() => {
+    async function fetchDetail() {
+      try {
+        const data = await getMovieDetails(id);
+        setMovie(data);
+      } catch (err) {
+        console.error("상세 API 에러:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchDetail();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-50 flex items-center justify-center">
+        <p className="text-sm text-slate-300">
+          상세 정보를 불러오는 중입니다...
+        </p>
+      </div>
+    );
   }
-  if (!movie) return null;
+
+  if (error || !movie) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-50 flex items-center justify-center">
+        <p className="text-sm text-red-400">
+          상세 정보를 불러오지 못했습니다. {error?.message}
+        </p>
+      </div>
+    );
+  }
   const { title, poster_path, backdrop_path, vote_average, genres, overview } =
     movie;
 
@@ -78,3 +112,4 @@ export default function MovieDetail() {
     </div>
   );
 }
+export default MovieDetail;

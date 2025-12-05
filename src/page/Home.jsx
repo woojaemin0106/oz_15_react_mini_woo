@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { TMDB_TOKEN, TMDB_BASE_URL } from "../constants/api";
+import { getPopularMovies } from "../constants/TMDb";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -11,22 +11,8 @@ function Home() {
   useEffect(() => {
     async function fetchPopularMovies() {
       try {
-        const res = await fetch(
-          `${TMDB_BASE_URL}/movie/popular?language=ko-KR&page=1`,
-          {
-            method: "GET",
-            headers: {
-              accept: "application/json",
-              Authorization: `Bearer ${TMDB_TOKEN}`, // 공백 추가
-            },
-          }
-        );
-
-        if (!res.ok) {
-          throw new Error("TMDB 인기 영화 요청 실패"); //  중괄호로 수정
-        }
-
-        const data = await res.json(); //  응답 JSON 파싱
+        // tmdb.js에서 가져온 함수 사용
+        const data = await getPopularMovies(1);
 
         // 성인영화 제외
         const filtered = data.results.filter((movie) => movie.adult === false);
@@ -83,6 +69,7 @@ function Home() {
               {movies.map((movie) => (
                 <SwiperSlide key={movie.id}>
                   <MovieCard
+                    id={movie.id}
                     title={movie.title}
                     posterPath={movie.poster_path}
                     rating={movie.vote_average}

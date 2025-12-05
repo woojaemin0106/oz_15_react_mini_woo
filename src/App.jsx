@@ -2,14 +2,14 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import Home from "./page/Home.jsx";
-import MovieDetail from "./components/MovieDetail.jsx"; // 위치에 맞게
+import MovieDetail from "./components/MovieDetail.jsx";
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/details" element={<MovieDetail />} />
+        <Route path="/details/:id" element={<MovieDetail />} />
       </Route>
     </Routes>
   );
