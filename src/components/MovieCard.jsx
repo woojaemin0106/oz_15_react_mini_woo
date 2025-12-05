@@ -4,7 +4,7 @@ const Image_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 function MovieCard({ id, title, posterPath, rating }) {
   const posterUrl = posterPath
-    ? `${IMAGE_BASE_URL}${posterPath}`
+    ? `${Image_BASE_URL}${posterPath}`
     : "https://via.placeholder.com/500x750?text=No+Image";
 
   const formattedRating =
