@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import React from "react";
-const Image_URL = "https://image.tmdb.org/t/p/w500";
+const Image_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 function MovieCard({ id, title, posterPath, rating }) {
-  const posterUrl = Image_URL + posterPath;
+  const posterUrl = posterPath
+    ? `${IMAGE_BASE_URL}${posterPath}`
+    : "https://via.placeholder.com/500x750?text=No+Image";
+
   const formattedRating =
     typeof rating === "number" ? rating.toFixed(1) : rating;
 
