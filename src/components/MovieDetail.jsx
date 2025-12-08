@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails } from "../constants/TMDb";
+import { getMovieDetails } from "../hooks/TMDb";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 

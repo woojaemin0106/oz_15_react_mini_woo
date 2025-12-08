@@ -2,33 +2,43 @@ import React, { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { getPopularMovies } from "../constants/TMDb";
+import { getPopularMovies, searchMovies } from "../hooks/TMDb";
+import { useSearchParams } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // URL 쿼리 읽기
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
+
   useEffect(() => {
-    async function fetchPopularMovies() {
+    async function fetchMovies() {
+      setIsLoading(true);
+
       try {
-        // tmdb.js에서 가져온 함수 사용
-        const data = await getPopularMovies(1);
+        let data;
 
-        // 성인영화 제외
+        if (query) {
+          //  검색어가 있을 때
+          data = await searchMovies(query, 1);
+        } else {
+          //  검색어가 없을 때
+          data = await getPopularMovies(1);
+        }
+
         const filtered = data.results.filter((movie) => movie.adult === false);
-
-        // 상태에 저장
         setMovies(filtered);
       } catch (error) {
         console.error("TMDB API 호출 에러:", error);
       } finally {
-        setIsLoading(false); //  로딩 종료
+        setIsLoading(false);
       }
     }
 
-    // 실제로 함수 호출
-    fetchPopularMovies();
-  }, []); // 컴포넌트 처음 마운트될 때만 실행
+    fetchMovies();
+  }, [query]); // query가 바뀔 때마다 요청 다시
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black/70 to-transparent  text-slate-50">

@@ -1,4 +1,4 @@
-import { TMDB_BASE_URL, TMDB_TOKEN } from "./api";
+import { TMDB_BASE_URL, TMDB_TOKEN } from "../constants/api";
 
 async function tmdbFetch(path, options = {}) {
   const url = `${TMDB_BASE_URL}${path}`;
@@ -9,7 +9,7 @@ async function tmdbFetch(path, options = {}) {
       accept: "application/json",
       Authorization: `Bearer ${TMDB_TOKEN}`,
     },
-    ...options, // 나중에 이 함수를 쓸 때 메소드 , 보디를 덮어쓸 수 있게 만들어줌
+    ...options, // 나중에 이 함수를 쓸 때 메소드 , 보디를 덮어쓸 수 있게 만들어줌 <<
   });
   if (!res.ok) {
     const message = `TMDb 요청 실패: ${res.status} ${res.statusText}`;
@@ -18,7 +18,7 @@ async function tmdbFetch(path, options = {}) {
   return res.json();
 }
 
-// ✅ 인기 영화 목록
+// 인기 영화 목록
 export async function getPopularMovies(page = 1, language = "ko-KR") {
   return tmdbFetch(`/movie/popular?language=${language}&page=${page}`);
 }
@@ -28,4 +28,16 @@ export async function getMovieDetails(id, { language = "ko-KR" } = {}) {
     throw new Error("영화 id가 없습니다.");
   }
   return tmdbFetch(`/movie/${id}?language=${language}`);
+}
+//  영화 검색 (제목으로 검색)
+export async function searchMovies(query, page = 1, language = "ko-KR") {
+  if (!query) {
+    throw new Error("검색어가 없습니다.");
+  }
+
+  const encoded = encodeURIComponent(query);
+
+  return tmdbFetch(
+    `/search/movie?query=${encoded}&include_adult=false&language=${language}&page=${page}`
+  );
 }
