@@ -1,8 +1,9 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 
 function NavBar() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // URL에 이미 query가 있으면 그걸 초기값으로 사용
@@ -28,12 +29,10 @@ function NavBar() {
   return (
     <header className="bg-black text-white">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-        {/* 로고 */}
         <Link to="/" className="mr-2 text-lg font-semibold">
           OZ 무비
         </Link>
 
-        {/* 검색창 */}
         <div className="flex-1 flex justify-center">
           <input
             type="text"
@@ -44,12 +43,18 @@ function NavBar() {
           />
         </div>
 
-        {/* 오른쪽 버튼들 */}
         <div className="flex items-center gap-2">
-          <button className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white">
+          <button
+            onClick={() => navigate("/login")}
+            className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white"
+          >
             로그인
           </button>
-          <button className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white">
+
+          <button
+            onClick={() => navigate("/signup")}
+            className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white"
+          >
             회원가입
           </button>
         </div>
