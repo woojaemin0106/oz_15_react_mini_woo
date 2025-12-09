@@ -86,7 +86,10 @@ function Signup() {
         />
 
         {/* 버튼 */}
-        <button className="w-full bg-violet-600 hover:bg-violet-700 transition rounded py-2 font-semibold mt-2">
+        <button
+          onClick={handleSignup}
+          className="w-full bg-violet-600 hover:bg-violet-700 transition rounded py-2 font-semibold mt-2"
+        >
           회원가입
         </button>
       </div>

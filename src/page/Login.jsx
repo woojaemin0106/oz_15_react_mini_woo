@@ -54,7 +54,10 @@ function Login() {
           onChange={(e) => handleChange("password", e.target.value)}
         />
 
-        <button className="w-full bg-violet-600 hover:bg-violet-700 transition rounded py-2 font-semibold mt-2">
+        <button
+          onClick={handleLogin}
+          className="w-full bg-violet-600 hover:bg-violet-700 transition rounded py-2 font-semibold mt-2"
+        >
           로그인
         </button>
       </div>
