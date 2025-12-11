@@ -10,9 +10,18 @@ import { useSupabaseAuth } from "./supabase";
 function App() {
   const { getUserInfo } = useSupabaseAuth();
 
+  // 앱이 처음 마운트될때 현재 로그인한 유저 정보 동기화
   useEffect(() => {
-    getUserInfo();
-  }, []);
+    const syncUser = async () => {
+      try {
+        await getUserInfo(); // localStorage , 전역 상태 업데이트
+      } catch (err) {
+        console.error("유저 정보 동기화 실패:", err);
+      }
+    };
+
+    syncUser();
+  }, [getUserInfo]);
   return (
     <Routes>
       <Route element={<Layout />}>
