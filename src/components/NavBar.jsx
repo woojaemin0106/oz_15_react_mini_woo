@@ -1,8 +1,10 @@
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
+import { useSupabaseAuth } from "../supabase";
 
 function NavBar() {
+  const { user, logout } = useSupabaseAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -43,24 +45,52 @@ function NavBar() {
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate("/login")}
-            className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white"
-          >
-            로그인
-          </button>
+        <div className="flex items-center gap-3">
+          {/* ⭐ 로그인 안 했을 때 */}
+          {!user && (
+            <>
+              <button
+                onClick={() => navigate("/login")}
+                className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold"
+              >
+                로그인
+              </button>
 
-          <button
-            onClick={() => navigate("/signup")}
-            className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white"
-          >
-            회원가입
-          </button>
+              <button
+                onClick={() => navigate("/signup")}
+                className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold"
+              >
+                회원가입
+              </button>
+            </>
+          )}
+
+          {/* ⭐ 로그인 했을 때 */}
+          {user && (
+            <div className="relative group">
+              <img
+                src={user.profileImageUrl || "/default-user.png"}
+                alt="user"
+                className="w-9 h-9 rounded-full cursor-pointer"
+              />
+
+              {/* hover dropdown */}
+              <div className="absolute right-0 mt-2 hidden group-hover:block bg-slate-700 rounded shadow-md p-2 text-sm">
+                <p className="px-2 py-1 hover:bg-slate-600 rounded cursor-pointer">
+                  마이페이지(옵션)
+                </p>
+                <p
+                  onClick={handleLogout}
+                  className="px-2 py-1 hover:bg-slate-600 rounded cursor-pointer"
+                >
+                  로그아웃
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>
   );
 }
-
 export default NavBar;

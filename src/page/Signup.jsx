@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FormInput from "../components/FormInput";
-import { useSupabaseAuth } from "../supabase/supabase";
+import { useSupabaseAuth } from "../supabase";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 function Signup() {

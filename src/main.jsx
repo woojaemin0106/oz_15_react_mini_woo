@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import { SupabaseProvider } from "./supabase/supabase/index.js";
+import { SupabaseProvider } from "./supabase/index.js";
+
 createRoot(document.getElementById("root")).render(
   <SupabaseProvider>
     <BrowserRouter>

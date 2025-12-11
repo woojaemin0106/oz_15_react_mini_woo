@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import Home from "./page/Home.jsx";
 import MovieDetail from "./components/MovieDetail.jsx";
 import Signup from "./page/Signup.jsx";
 import Login from "./page/Login.jsx";
+import { useSupabaseAuth } from "./supabase";
 
 function App() {
+  const { getUserInfo } = useSupabaseAuth();
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <Routes>
       <Route element={<Layout />}>

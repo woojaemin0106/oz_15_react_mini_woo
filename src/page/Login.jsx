@@ -1,8 +1,8 @@
 import { useState } from "react";
 import FormInput from "../components/FormInput";
-import { useSupabaseAuth } from "../supabase/supabase";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { useSupabaseAuth } from "../supabase";
 function Login() {
   const [form, setForm] = useState({
     email: "",
